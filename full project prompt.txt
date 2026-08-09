@@ -1,0 +1,16 @@
+موقع achievements viewer يقرأ انجازات الالعاب من goldberg emulater و لكن هذه ليست قصتنا فالموقع يعمل بشكل جيد و لكن مشكلته انه لا يستورد الصور بشكل صحيح ففي achievment log يظهر انه لم يستورد الصور بشكل صحيح و كرر نفس الصور لكل الانجازات تقريبا فقم بعمل debugging لفعهم المشكلة و اصلاحها
+
+ايضا قم بعمل صفحة index.html بنفس UI الموقع المرسل حيث ان هذه الصفحة ستحتوي علي قائمة الالعاب التي تم توليد صفحة انجاز لها لكي اتصفحهم من الموقع(الصفحات كلها مرتبطة ببعض بحيث يمكنني الذهاب و الرجوع لصفحة index.html)
+
+و من ثم قم بتحويل صفحة achievments viewer الي كود .bat يأخذ بيانات الالعاب من ملف مجاور له يسمي input.txt و كل بيان في سطر جديد حيث لكل لعبة سيأخذ مسار فولدر img للصور  و مسار لملف achievements.json و اسم اللعبة قبلهم
+مثال
+dead cells
+C:\Users\Ahmed Ragab\Desktop\gen_emu_cfg-Windows-Release\generate_emu_config\_OUTPUT\588650\steam_settings\img(img path as img is included as the end of the path name)
+C:\Users\Ahmed Ragab\AppData\Roaming\GSE Saves\588650(json path)
+و من ثم باستخدام كود achievements viewer.html يقوم بتوليد صفحة اللعبة و حفظ الموقع باسم اللعبة و من ثم قم باضافة اللعبة الي index.html
+
+كل الملفات ستكون مجاورهة لبعضها و اقصد هنا
+file.bat
+achievements viewer.htm(الذي ستصلحه انت)
+game_name.html
+index.html
