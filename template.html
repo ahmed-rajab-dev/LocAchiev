@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Game Achievements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --night:      #0A0E1A;
+  --card:       #111827;
+  --mid:        #1B3A4B;
+  --teal:       #5ECFB1;
+  --teal-dim:   #2A6B5A;
+  --orange:     #F4A244;
+  --orange-dim: #7A5020;
+  --gold:       #FFD166;
+  --gold-dim:   #6B5520;
+  --text:       #C8D8E8;
+  --dim:        #8BAAB8;
+  --muted:      #3A4A5A;
+  --locked:     #1A2030;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-sans:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px; /* تم التكبير من 14px */
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(94,207,177,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94,207,177,0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(94,207,177,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+header {
+  padding: 48px 0 36px;
+  text-align: center;
+  border-bottom: 2px solid var(--muted);
+  margin-bottom: 36px;
+  position: relative;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+}
+.header-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; /* تم التكبير من 10px */
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+  display: block;
+}
+.header-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(16px, 3.5vw, 24px); /* تم التكبير */
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255,209,102,0.4), 3px 3px 0 rgba(0,0,0,0.5);
+}
+.header-sub {
+  font-family: var(--font-sans);
+  font-size: 15px; /* تم التكبير من 13px */
+  color: var(--dim);
+  letter-spacing: 0.05em;
+}
+#stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-bottom: 28px;
+  background: var(--muted);
+  border: 2px solid var(--muted);
+}
+.stat-cell {
+  background: var(--card);
+  padding: 16px 12px;
+  text-align: center;
+}
+.stat-val {
+  font-family: var(--font-pixel);
+  font-size: clamp(18px, 3.5vw, 26px); /* تم التكبير */
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+.stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 10px; /* تم التكبير من 8px */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+#progress-bar {
+  margin-bottom: 28px;
+  background: var(--card);
+  border: 2px solid var(--muted);
+  padding: 16px 20px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.prog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.prog-title {
+  font-family: var(--font-pixel);
+  font-size: 10px; /* تم التكبير من 8px */
+  color: var(--teal);
+  letter-spacing: 0.1em;
+}
+.prog-pct {
+  font-family: var(--font-pixel);
+  font-size: 16px; /* تم التكبير من 14px */
+  color: var(--gold);
+}
+.prog-track {
+  position: relative;
+  height: 20px;
+  background: var(--locked);
+  border: 2px solid var(--muted);
+}
+.prog-fill {
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--teal) 0px, var(--teal) 14px, var(--teal-dim) 14px, var(--teal-dim) 16px);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0%;
+  position: relative;
+}
+.prog-fill::after {
+  content: '';
+  position: absolute;
+  right: -3px; top: 0; bottom: 0;
+  width: 6px;
+  background: var(--text);
+  animation: blink 0.8s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.prog-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding: 0 2px;
+}
+.prog-tick {
+  font-family: var(--font-mono);
+  font-size: 10px; /* تم التكبير من 8px */
+  color: var(--muted);
+}
+.prog-tick.done { color: var(--teal); }
+#filter-bar {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cat-btn {
+  background: var(--locked);
+  border: 2px solid var(--muted);
+  padding: 6px 12px;
+  color: var(--dim);
+  font-family: var(--font-mono);
+  font-size: 10px; /* تم التكبير من 8px */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+}
+.cat-btn:hover { border-color: var(--orange); color: var(--orange); }
+.cat-btn.active { background: var(--orange-dim); border-color: var(--orange); color: var(--orange); }
+.filter-sep { flex: 1; }
+.search-wrap { position: relative; }
+.search-wrap::before {
+  content: '>';
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px; /* تم التكبير من 8px */
+  font-family: var(--font-mono);
+  color: var(--dim);
+  pointer-events: none;
+}
+#search {
+  background: var(--locked);
+  border: 2px solid var(--muted);
+  padding: 6px 12px 6px 28px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px; /* تم التكبير من 10px */
+  width: 180px;
+  outline: none;
+  transition: border-color 0.15s;
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+  direction: ltr;
+}
+#search:focus { border-color: var(--teal); }
+#search::placeholder { color: var(--muted); font-size: 11px; /* تم التكبير من 9px */ }
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 14px;
+}
+.section-line { flex: 1; height: 2px; background: var(--muted); }
+.section-lbl {
+  font-family: var(--font-pixel);
+  font-size: 9px; /* تم التكبير من 7px */
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+.section-lbl.gold  { color: var(--gold); }
+.section-lbl.muted { color: var(--muted); }
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.ach-card {
+  background: var(--card);
+  border: 2px solid var(--muted);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: default;
+  position: relative;
+  transition: transform 0.1s, border-color 0.15s;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+  animation: cardIn 0.3s ease backwards;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ach-card:hover { transform: translateY(-2px); }
+.ach-card.unlocked { border-color: var(--gold-dim); }
+.ach-card.unlocked::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8px; right: 8px;
+  height: 2px;
+  background: var(--gold);
+}
+.ach-card.unlocked:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(255,209,102,0.12);
+}
+.ach-card.locked {
+  background: var(--locked);
+  opacity: 0.6;
+}
+.ach-icon {
+  flex-shrink: 0;
+  width: 52px; height: 52px;
+  border: 2px solid var(--muted);
+  background: var(--locked);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+}
+.ach-card.unlocked .ach-icon {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 14px rgba(255,209,102,0.2);
+}
+.ach-icon img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ach-icon .fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-pixel);
+  font-size: 18px; /* تم التكبير من 16px */
+  color: var(--muted);
+}
+.ach-body { flex: 1; min-width: 0; }
+.ach-cat {
+  font-family: var(--font-mono);
+  font-size: 9px; /* تم التكبير من 7px */
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 4px;
+  display: block;
+}
+.ach-card.locked .ach-cat { color: var(--muted); }
+.ach-name {
+  font-family: var(--font-pixel);
+  font-size: 10px; /* تم التكبير من 8px */
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ach-card.locked .ach-name { color: var(--muted); }
+.ach-id {
+  font-family: var(--font-mono);
+  font-size: 9px; /* تم التكبير من 7px */
+  color: var(--muted);
+  opacity: 0.7;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+}
+.ach-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 9px; /* تم التكبير من 7px */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border: 1px solid;
+}
+.badge-done  { color: var(--gold);   border-color: var(--gold-dim);   background: rgba(255,209,102,0.08); }
+.badge-lock  { color: var(--muted);  border-color: var(--muted);      background: transparent; }
+.ach-date {
+  font-family: var(--font-mono);
+  font-size: 9px; /* تم التكبير من 7px */
+  color: var(--muted);
+  margin-left: auto;
+  direction: ltr;
+}
+.empty { text-align: center; padding: 80px 20px; }
+.empty h3 { font-family: var(--font-pixel); font-size: 12px; /* تم التكبير من 10px */ color: var(--dim); margin-bottom: 10px; }
+.empty p { font-family: var(--font-mono); font-size: 11px; /* تم التكبير من 9px */ color: var(--muted); }
+
+footer {
+  text-align: center;
+  margin-top: 64px;
+  padding-top: 20px;
+  border-top: 2px solid var(--muted);
+  font-family: var(--font-pixel);
+  font-size: 8px; /* تم التكبير من 6px */
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  line-height: 2;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="header-tag">[ ACHIEVEMENT CHRONICLE ]</span>
+  <h1 class="header-title" id="header-title">GAME ACHIEVEMENTS</h1>
+  <p class="header-sub" id="header-sub">Achievements Log</p>
+</header>
+
+<div id="stats-bar">
+  <div class="stat-cell">
+    <span class="stat-val" id="s-done">0</span>
+    <span class="stat-lbl">COMPLETED</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-val" id="s-total">0</span>
+    <span class="stat-lbl">TOTAL</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-val" id="s-pct">0%</span>
+    <span class="stat-lbl">PROGRESS</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-val" id="s-cats">0</span>
+    <span class="stat-lbl">CATEGORIES</span>
+  </div>
+</div>
+
+<div id="progress-bar">
+  <div class="prog-head">
+    <span class="prog-title">QUEST PROGRESS</span>
+    <span class="prog-pct" id="prog-pct">0%</span>
+  </div>
+  <div class="prog-track">
+    <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+  </div>
+  <div class="prog-ticks">
+    <span class="prog-tick" id="tick-0">0%</span>
+    <span class="prog-tick" id="tick-25">25%</span>
+    <span class="prog-tick" id="tick-50">50%</span>
+    <span class="prog-tick" id="tick-75">75%</span>
+    <span class="prog-tick" id="tick-100">100%</span>
+  </div>
+</div>
+
+<div id="filter-bar">
+  <button class="cat-btn active" data-cat="ALL" onclick="setFilter('ALL',this)">ALL</button>
+  <span id="cat-btns"></span>
+  <button class="cat-btn" data-filter="unlocked" onclick="setStatusFilter('unlocked',this)">DONE</button>
+  <button class="cat-btn" data-filter="locked" onclick="setStatusFilter('locked',this)">LOCKED</button>
+  <div class="filter-sep"></div>
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="SEARCH..." oninput="render()" autocomplete="off"/>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  ACHIEVEMENT CHRONICLE — PIXEL EDITION
+</footer>
+</div>
+
+<script>
+/* =======================================
+   EMBEDDED DATA (Will be injected via BAT)
+======================================= */
+const jsonData = /*JSON_DATA_PLACEHOLDER*/{};
+const rawData  = /*RAW_DATA_PLACEHOLDER*/[];
+const iconMap  = /*ICON_MAP_PLACEHOLDER*/{};
+
+let achievements = [];
+let activeFilter = 'ALL';
+let statusFilter = 'all';
+
+window.addEventListener('DOMContentLoaded', () => {
+  parseAchievements();
+});
+
+function parseAchievements() {
+  const rawMap = {};
+  if (Array.isArray(rawData)) {
+    rawData.forEach(item => {
+      if (item.name) {
+        rawMap[item.name] = {
+          icon: (item.icon || '').replace(/^img\//, ''),
+          iconGray: (item.icon_gray || '').replace(/^img\//, ''),
+        };
+      }
+    });
+  }
+
+  let list = [];
+  if (Array.isArray(jsonData)) {
+    list = jsonData.map(item => {
+      const key = item.name || item.id || '?';
+      const info = rawMap[key] || {};
+      return {
+        id: key,
+        name: item.displayName || formatKey(key),
+        category: getCategory(key),
+        unlocked: item.earned === true || item.achieved === true || item.earned === 1,
+        time: item.earned_time || item.unlocktime || 0,
+        icon: info.icon || '',
+        iconGray: info.iconGray || '',
+      };
+    });
+  } else if (jsonData && typeof jsonData === 'object') {
+    list = Object.entries(jsonData).map(([key, val]) => {
+      const info = rawMap[key] || {};
+      return {
+        id: key,
+        name: formatKey(key),
+        category: getCategory(key),
+        unlocked: val.earned === true,
+        time: val.earned_time || 0,
+        icon: info.icon || '',
+        iconGray: info.iconGray || '',
+      };
+    });
+  }
+
+  achievements = list;
+  updateUI();
+}
+
+function formatKey(key) {
+  const parts = key.split('_');
+  if (parts.length < 2) return key;
+  const catMap = { BIOME:'Biome', EQUIP:'Equip', EXPLO:'Explore', FEAT:'Feat', FIGHT:'Fight' };
+  const prefix = parts[0];
+  const label  = catMap[prefix] || toTitle(prefix);
+  const rest   = parts.slice(1).map(toTitle).join(' ');
+  return `${label}: ${rest}`;
+}
+
+function toTitle(s) { return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
+
+function getCategory(key) {
+  const p = key.split('_')[0].toUpperCase();
+  const map = { BIOME:'BIOME', EQUIP:'EQUIP', EXPLO:'EXPLORE', FEAT:'FEAT', FIGHT:'FIGHT' };
+  return map[p] || p;
+}
+
+function resolveIcon(ach) {
+  if (ach.icon && iconMap[ach.icon.toLowerCase()]) return iconMap[ach.icon.toLowerCase()];
+  if (ach.iconGray && iconMap[ach.iconGray.toLowerCase()]) return iconMap[ach.iconGray.toLowerCase()];
+  
+  const id = ach.id.toLowerCase();
+  const extensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+  for (const ext of extensions) {
+    if (iconMap[id + ext]) return iconMap[id + ext];
+  }
+  return null;
+}
+
+function updateUI() {
+  const total = achievements.length;
+  const done  = achievements.filter(a => a.unlocked).length;
+  const pct   = total ? Math.round(done / total * 100) : 0;
+  const cats  = [...new Set(achievements.map(a => a.category))];
+
+  document.getElementById('s-done').textContent  = done;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-pct').textContent   = pct + '%';
+  document.getElementById('s-cats').textContent  = cats.length;
+
+  document.getElementById('prog-pct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('prog-fill').style.width = pct + '%'; }, 80);
+
+  const cbEl = document.getElementById('cat-btns');
+  cbEl.innerHTML = cats.map(c =>
+    `<button class="cat-btn" data-cat="${c}" onclick="setFilter('${c}',this)">${c}</button>`
+  ).join('');
+
+  document.getElementById('header-sub').textContent = `${done} / ${total} Achievements Completed • ${pct}% Completion`;
+
+  render();
+}
+
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  statusFilter = 'all';
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function setStatusFilter(st, btn) {
+  statusFilter = st;
+  activeFilter = 'ALL';
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function getFiltered() {
+  const q = (document.getElementById('search')?.value || '').toLowerCase().trim();
+  return achievements.filter(a => {
+    const passC = activeFilter === 'ALL' || a.category === activeFilter;
+    const passS = statusFilter === 'all'
+      || (statusFilter === 'unlocked' && a.unlocked)
+      || (statusFilter === 'locked'   && !a.unlocked);
+    const passQ = !q || a.id.toLowerCase().includes(q) || a.name.toLowerCase().includes(q);
+    return passC && passS && passQ;
+  });
+}
+
+function render() {
+  const main     = document.getElementById('main');
+  const filtered = getFiltered();
+
+  if (!filtered.length) {
+    main.innerHTML = `<div class="empty"><h3>NO RESULTS</h3><p>No achievements found</p></div>`;
+    return;
+  }
+
+  const unlocked = filtered.filter(a => a.unlocked).sort((a,b) => (b.time||0) - (a.time||0));
+  const locked   = filtered.filter(a => !a.unlocked);
+
+  let html = '';
+  if (unlocked.length) {
+    html += sectionHead(`UNLOCKED — ${unlocked.length}`, 'gold');
+    html += `<div class="ach-grid">`;
+    unlocked.forEach((a, i) => { html += card(a, i); });
+    html += `</div>`;
+  }
+  if (locked.length) {
+    html += sectionHead(`LOCKED — ${locked.length}`, 'muted');
+    html += `<div class="ach-grid">`;
+    locked.forEach((a, i) => { html += card(a, i + unlocked.length); });
+    html += `</div>`;
+  }
+  main.innerHTML = html;
+}
+
+function sectionHead(label, cls) {
+  return `<div class="section-head"><div class="section-line"></div><span class="section-lbl ${cls}">${label}</span><div class="section-line"></div></div>`;
+}
+
+function card(a, idx) {
+  const cls     = a.unlocked ? 'unlocked' : 'locked';
+  const delay   = Math.min(idx * 0.025, 0.4);
+  const iconURL = resolveIcon(a);
+  const fallbackChar = '+';
+
+  const iconHtml = iconURL
+    ? `<img src="${iconURL}" alt="${escHtml(a.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="fallback" style="display:none">${fallbackChar}</div>`
+    : `<div class="fallback">${fallbackChar}</div>`;
+
+  const badge = a.unlocked ? `<span class="badge badge-done">DONE</span>` : `<span class="badge badge-lock">LOCKED</span>`;
+
+  let dateStr = '';
+  if (a.unlocked && a.time) {
+    const d = new Date(a.time * 1000);
+    if (!isNaN(d)) dateStr = `<span class="ach-date">${d.toLocaleDateString('en-GB')}</span>`;
+  }
+
+  return `
+    <div class="ach-card ${cls}" style="animation-delay:${delay}s">
+      <div class="ach-icon">${iconHtml}</div>
+      <div class="ach-body">
+        <span class="ach-cat">${a.category}</span>
+        <div class="ach-name">${escHtml(a.name)}</div>
+        <div class="ach-id">${escHtml(a.id)}</div>
+        <div class="ach-foot">${badge}${dateStr}</div>
+      </div>
+    </div>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
