@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hall of Fame â€” Game Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --night:      #0A0E1A;
+  --card:       #111827;
+  --teal:       #5ECFB1;
+  --teal-dim:   #2A6B5A;
+  --orange:     #F4A244;
+  --gold:       #FFD166;
+  --gold-dim:   #6B5520;
+  --text:       #C8D8E8;
+  --dim:        #8BAAB8;
+  --muted:      #3A4A5A;
+  --locked:     #1A2030;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-sans:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px; /* تم التكبير من 14px */
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(94,207,177,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94,207,177,0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+header {
+  padding: 48px 0 36px;
+  text-align: center;
+  border-bottom: 2px solid var(--muted);
+  margin-bottom: 36px;
+  position: relative;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+}
+.header-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; /* تم التكبير من 10px */
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+  display: block;
+}
+.header-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(18px, 4.5vw, 28px); /* تم التكبير */
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255,209,102,0.4), 3px 3px 0 rgba(0,0,0,0.5);
+}
+.header-sub {
+  font-family: var(--font-sans);
+  font-size: 15px; /* تم التكبير من 13px */
+  color: var(--dim);
+}
+.game-grid, #main {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.game-card {
+  background: var(--card);
+  border: 2px solid var(--muted);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+}
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8px; right: 8px;
+  height: 2px;
+  background: var(--teal);
+}
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--teal);
+  box-shadow: 0 0 20px rgba(94,207,177,0.15);
+}
+.game-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.game-icon-box {
+  width: 44px; height: 44px;
+  background: var(--locked);
+  border: 2px solid var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+  position: relative;
+}
+.game-icon-box::after {
+  content: '+';
+  font-family: var(--font-pixel);
+  font-size: 18px; /* تم التكبير من 16px */
+  color: var(--gold);
+}
+.game-title {
+  font-family: var(--font-pixel);
+  font-size: 12px; /* تم التكبير من 10px */
+  color: var(--text);
+  line-height: 1.5;
+  word-break: break-word;
+}
+.game-card:hover .game-title {
+  color: var(--gold);
+}
+.game-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed var(--muted);
+  padding-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px; /* تم التكبير من 8px */
+  color: var(--dim);
+}
+.badge-launch {
+  color: var(--teal);
+  border: 1px solid var(--teal-dim);
+  padding: 3px 8px;
+  background: rgba(94,207,177,0.08);
+}
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  grid-column: 1 / -1;
+}
+footer {
+  text-align: center;
+  margin-top: 64px;
+  padding-top: 20px;
+  border-top: 2px solid var(--muted);
+  font-family: var(--font-pixel);
+  font-size: 8px; /* تم التكبير من 6px */
+  color: var(--muted);
+  letter-spacing: 0.2em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="header-tag">[ HALL OF FAME DIRECTORY ]</span>
+    <h1 class="header-title">GAMES INDEX</h1>
+    <p class="header-sub">Select a game to view its full achievements log</p>
+  </header>
+
+  <main class="game-grid">    <a class="game-card" href="Hall of Fame/database_detective.html">
+      <div class="game-info">
+        <div class="game-icon-box"></div>
+        <div class="game-title">database detective</div>
+      </div>
+      <div class="game-foot">
+        <span>VIEW LOG</span>
+        <span class="badge-launch">OPEN</span>
+      </div>
+    </a>    <a class="game-card" href="Hall of Fame/dead_cells.html">
+      <div class="game-info">
+        <div class="game-icon-box"></div>
+        <div class="game-title">dead cells</div>
+      </div>
+      <div class="game-foot">
+        <span>VIEW LOG</span>
+        <span class="badge-launch">OPEN</span>
+      </div>
+    </a>    <a class="game-card" href="Hall of Fame/this_war_of_mine.html">
+      <div class="game-info">
+        <div class="game-icon-box"></div>
+        <div class="game-title">this war of mine</div>
+      </div>
+      <div class="game-foot">
+        <span>VIEW LOG</span>
+        <span class="badge-launch">OPEN</span>
+      </div>
+    </a></main>
+
+  <footer>ACHIEVEMENT CHRONICLE â€” INDEX EDITION</footer>
+</div>
+</body>
+</html>
