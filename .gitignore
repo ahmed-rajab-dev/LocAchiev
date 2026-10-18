@@ -1,6 +1,11 @@
-/gbe_settings_generator
-/sources
-/versions
+# cache & data
 /gbe_settings_generator/_OUTPUT_DONE/
+/__pycache__
+
+# program
+/gbe_settings_generator
+/versions
+
+# app
 /index.html
 "/Hall of Fame"
