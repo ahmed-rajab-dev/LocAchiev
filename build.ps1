@@ -1,10 +1,11 @@
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$GAMES_FILE    = "games_data.txt"
-$TEMPLATE_FILE = "template.html"
-$APPID_FILE    = "steam appid.txt"
-$INDEX_FILE    = "index.html"
-$OUTPUT_DIR    = "Hall of Fame"
+$GAMES_FILE    = Join-Path $PSScriptRoot "games_data.txt"
+$TEMPLATE_FILE = Join-Path $PSScriptRoot "template.html"
+$APPID_FILE    = Join-Path $PSScriptRoot "steam appid.txt"
+$INDEX_FILE    = Join-Path $PSScriptRoot "index.html"
+$OUTPUT_DIR    = Join-Path $PSScriptRoot "Hall of Fame"
 $GSE_BASE_PATH = "C:\Users\Ahmed Ragab\AppData\Roaming\GSE Saves"
 
 $global:IndexUpdated = $false
@@ -37,42 +38,54 @@ try {
         $gamesDict[$current['name'].ToLower()] = $current
     }
 
-    # 2. Read steam appid.txt
+    # 2. Parse steam appid.txt sections
     if (-not (Test-Path $APPID_FILE)) {
         Write-Host "[PS] ERROR: $APPID_FILE not found!" -ForegroundColor Red
         return
     }
 
-    Write-Host "[PS] Reading $APPID_FILE..." -ForegroundColor Cyan
+    Write-Host "[PS] Parsing $APPID_FILE sections..." -ForegroundColor Cyan
     $appidContent = Get-Content -Path $APPID_FILE -Encoding UTF8
 
-    $activeAppIds = @()
-    $doneAppIds   = @()
-    $isBelowLine  = $false
+    $activeAppIds   = @()
+    $preparedAppIds = @()
+    $doneAppIds     = @()
+
+    $currentSection = "ACTIVE"
 
     foreach ($line in $appidContent) {
         $trimmed = $line.Trim()
-        if ($trimmed -match '^-{3,}$') {
-            $isBelowLine = $true
-            continue
-        }
         if ([string]::IsNullOrWhiteSpace($trimmed)) { continue }
 
-        if (-not $isBelowLine) {
-            $activeAppIds += $line
-        } else {
-            $doneAppIds += $line
+        if ($trimmed -match '^-{3,}$') { continue }
+
+        if ($trimmed -ieq "PREPARED GAMES") {
+            $currentSection = "PREPARED"
+            continue
+        }
+
+        if ($trimmed -ieq "DONE GAMES") {
+            $currentSection = "DONE"
+            continue
+        }
+
+        if ($trimmed -match '^\s*(.+)\s*:\s*(\d+)\s*$') {
+            switch ($currentSection) {
+                "ACTIVE"   { $activeAppIds += $line }
+                "PREPARED" { $preparedAppIds += $line }
+                "DONE"     { $doneAppIds += $line }
+            }
         }
     }
 
-    Write-Host "[PS] Found $($activeAppIds.Count) game(s) to process above the line." -ForegroundColor Green
+    Write-Host "[PS] Found $($preparedAppIds.Count) game(s) in PREPARED GAMES section." -ForegroundColor Green
 
     $processed = 0
     $skipped   = 0
     $successfullyProcessedLines = @()
 
-    if ($activeAppIds.Count -gt 0) {
-        foreach ($appLine in $activeAppIds) {
+    if ($preparedAppIds.Count -gt 0) {
+        foreach ($appLine in $preparedAppIds) {
             if ($appLine -match '^\s*(.+)\s*:\s*(\d+)\s*$') {
                 $gameName  = $matches[1].Trim()
                 $appId     = $matches[2].Trim()
@@ -87,16 +100,12 @@ try {
                     continue
                 }
 
-                $gameData = $gamesDict[$lookupKey]
-                $rawPath  = $gameData['raw_path']
+                $gameData   = $gamesDict[$lookupKey]
+                $baseFolder = $gameData['raw_path']
 
-                # Deduce img path automatically
-                $rawFileItem = Get-Item -Path $rawPath -ErrorAction SilentlyContinue
-                if ($rawFileItem) {
-                    $imgPath = Join-Path $rawFileItem.DirectoryName "img"
-                } else {
-                    $imgPath = $rawPath -replace 'achievements\.json$', 'img'
-                }
+                # Build steam_settings paths dynamically from raw_path directory
+                $rawPath = Join-Path $baseFolder "steam_settings\achievements.json"
+                $imgPath = Join-Path $baseFolder "steam_settings\img"
 
                 $gamePath = Join-Path $GSE_BASE_PATH "$appId\achievements.json"
 
@@ -153,7 +162,10 @@ try {
                 $outputHtml = $outputHtml.Replace('/*RAW_DATA_PLACEHOLDER*/[]', $raw)
                 $outputHtml = $outputHtml.Replace('/*ICON_MAP_PLACEHOLDER*/{}', $iconMapJson)
 
-                # Safe file name
+                if (-not (Test-Path $OUTPUT_DIR)) {
+                    New-Item -ItemType Directory -Path $OUTPUT_DIR -Force | Out-Null
+                }
+
                 $safeName = $gameName -replace '[^a-zA-Z0-9]', '_'
                 $outFile = Join-Path $OUTPUT_DIR "$safeName.html"
 
@@ -165,21 +177,37 @@ try {
             }
         }
 
-        # Update steam appid.txt
+        # 3. Restructure and Update steam appid.txt with DONE GAMES section
         if ($successfullyProcessedLines.Count -gt 0) {
-            $remainingActive = $activeAppIds | Where-Object { $successfullyProcessedLines -notcontains $_ }
+            $remainingPrepared = $preparedAppIds | Where-Object { $successfullyProcessedLines -notcontains $_ }
+            $updatedDone       = $doneAppIds + $successfullyProcessedLines
+
             $newContent = @()
-            if ($remainingActive.Count -gt 0) { $newContent += $remainingActive }
-            $newContent += "-----------------------------"
-            $newContent += $doneAppIds
-            $newContent += $successfullyProcessedLines
+            if ($activeAppIds.Count -gt 0) {
+                $newContent += $activeAppIds
+            }
+
+            if ($remainingPrepared.Count -gt 0) {
+                $newContent += "-----------------------------"
+                $newContent += "PREPARED GAMES"
+                $newContent += "-----------------------------"
+                $newContent += $remainingPrepared
+            }
+
+            if ($updatedDone.Count -gt 0) {
+                $newContent += "-----------------------------"
+                $newContent += "DONE GAMES"
+                $newContent += "-----------------------------"
+                $newContent += $updatedDone
+            }
+
             $newContent | Set-Content -Path $APPID_FILE -Encoding UTF8
         }
     }
 
     $global:AddedCount = $processed
 
-    # 3. Update index.html
+    # 4. Update index.html
     Write-Host ""
     Write-Host "[PS] Updating index.html with all games in $OUTPUT_DIR..." -ForegroundColor Cyan
 
@@ -192,9 +220,7 @@ try {
             $cardsHtml = ""
             foreach ($file in $htmlFiles) {
                 $displayName = $file.BaseName -replace '_', ' '
-                
-                # مسار محلي مباشر ونظيف دون رموز غريبة أو تشفير زائد
-                $targetPath = "$OUTPUT_DIR/$($file.Name)"
+                $targetPath = "Hall of Fame/$($file.Name)"
 
                 $cardsHtml += @"
     <a class="game-card" href="$targetPath">

@@ -8,29 +8,33 @@ echo ============================================================
 echo Current Directory: %CD%
 echo.
 
-set "PS_SCRIPT=scan_games.ps1"
-
-if not exist "%PS_SCRIPT%" (
-    echo [ERROR] %PS_SCRIPT% not found in current directory!
-    goto END
-)
-
-set /p "TARGET_PATH=Enter the target games directory path (e.g., F:\1.games): "
+set /p TARGET_PATH="Enter the target games directory path (e.g., F:\1.games): "
 
 if "%TARGET_PATH%"=="" (
-    echo [ERROR] No path entered! Exiting...
-    goto END
+    echo.
+    echo [ERROR] No directory path was provided. Operation cancelled.
+    goto FAILURE
 )
 
 if not exist "%TARGET_PATH%" (
-    echo [ERROR] Target path does not exist: %TARGET_PATH%
-    goto END
+    echo.
+    echo [ERROR] Specified directory does not exist: %TARGET_PATH%
+    goto FAILURE
+)
+
+set "PS_SCRIPT=scan_games.ps1"
+
+if not exist "%PS_SCRIPT%" (
+    echo.
+    echo [ERROR] Critical PowerShell script missing: '%PS_SCRIPT%'
+    goto FAILURE
 )
 
 echo.
-echo Launching PowerShell Scanner...
+echo ============================================================
+echo Launching PowerShell Scanner Engine...
 echo Target Directory: %TARGET_PATH%
-echo Script File: %PS_SCRIPT%
+echo Script File      : %PS_SCRIPT%
 echo ============================================================
 echo.
 
@@ -40,18 +44,29 @@ set "PS_EXIT_CODE=%ERRORLEVEL%"
 
 echo.
 echo ============================================================
-echo  SCAN REPORT
+echo  SCANNER STATUS REPORT
 echo ============================================================
 
 if %PS_EXIT_CODE% EQU 0 (
-    echo [SUCCESS] Scan operation completed successfully.
+    echo [SUCCESS] Game directory scanning completed without any errors!
+    goto END
+) else if %PS_EXIT_CODE% EQU 2 (
+    echo [WARNING] Game data was added, BUT AppID Mismatches were detected for some games!
+    echo           Check red log entries above for details on mismatched AppIDs.
+    goto END
 ) else (
-    echo [FAILED] Scan operation terminated with error code: %PS_EXIT_CODE%
+    echo [FAILED] Scanner script encountered critical errors during execution.
+    goto FAILURE
 )
 
+:FAILURE
+echo.
+echo [ERROR] Scan process failed or ended with critical errors.
+echo Please review the output log above for details.
+
 :END
+echo.
 echo ============================================================
-echo Batch script finished.
-echo Press ANY KEY to close this window...
+echo  Batch script finished. Press ANY KEY to close this window...
 echo ============================================================
 pause > nul

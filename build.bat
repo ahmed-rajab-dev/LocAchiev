@@ -28,21 +28,11 @@ if not exist "%PS_SCRIPT%" (
     goto END
 )
 
-:: Prompt User for Mode
-echo Select Mode:
-echo  [1] Press Enter directly for normal BUILD
-echo  [2] Type 'reset' to Reset Environment
-echo.
-set "MODE=build"
-set /p "USER_INPUT=Type choice or press Enter: "
-if /i "%USER_INPUT%"=="reset" set "MODE=reset"
-
-echo.
-echo Starting PowerShell process (Mode: %MODE%)...
+echo Starting PowerShell process (BUILD Mode)...
 echo ============================================================
 
-:: Run PowerShell script file safely with Mode argument
-powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_SCRIPT%" -Mode "%MODE%"
+:: Run PowerShell script file directly
+powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_SCRIPT%"
 
 set "PS_EXIT_CODE=%ERRORLEVEL%"
 
@@ -52,14 +42,10 @@ echo  PROCESS STATUS REPORT
 echo ============================================================
 
 if %PS_EXIT_CODE% EQU 0 (
-    if "%MODE%"=="reset" (
-        echo  [SUCCESS] Environment reset completed successfully!
+    if exist "%INDEX_FILE%" (
+        echo  [SUCCESS] index.html has been updated successfully!
     ) else (
-        if exist "%INDEX_FILE%" (
-            echo  [SUCCESS] index.html has been updated successfully!
-        ) else (
-            echo  [WARNING] Process finished, but index.html file was missing.
-        )
+        echo  [WARNING] Process finished, but index.html file was missing.
     )
 ) else (
     echo  [FAILED] Process failed due to an error.
