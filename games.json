@@ -1,0 +1,314 @@
+{
+  "202970": {
+    "name": "Call of Duty®: Black Ops II",
+    "appid": 202970,
+    "status": "active",
+    "raw_path": "",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "call_of_duty_black_ops_2.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/202970/header.jpg?t=1780962925",
+    "total_achievements": 35,
+    "genres": [
+      "Action"
+    ],
+    "release_date": "12 Nov, 2012"
+  },
+  "394360": {
+    "name": "Hearts of Iron IV",
+    "appid": 394360,
+    "status": "active",
+    "raw_path": "F:\\1.games\\Hearts of Iron IV",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Hearts_of_Iron_IV.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/394360/67bbd0057627fc2244793bcdd09260c2539499cf/header.jpg?t=1791468228",
+    "total_achievements": 293,
+    "genres": [
+      "Simulation",
+      "Strategy"
+    ],
+    "release_date": "6 Jun, 2016"
+  },
+  "49520": {
+    "name": "Borderlands 2",
+    "appid": 49520,
+    "status": "active",
+    "raw_path": "F:\\1.games\\Borderlands 2\\Binaries\\Win32",
+    "steam_api": "86",
+    "is_unity": false,
+    "html_file": "borderlands_2.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/49520/header.jpg?t=1751931279",
+    "total_achievements": 75,
+    "genres": [
+      "Action",
+      "RPG"
+    ],
+    "release_date": "20 Sep, 2012"
+  },
+  "341940": {
+    "name": "Hatred",
+    "appid": 341940,
+    "status": "active",
+    "raw_path": "F:\\1.games\\Hatred\\Engine\\Binaries\\ThirdParty\\Steamworks\\Steamv130\\Win64",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Hatred.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/341940/header.jpg?t=1787601595",
+    "total_achievements": 74,
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "release_date": "1 Jun, 2015"
+  },
+  "1942280": {
+    "name": "Brotato",
+    "appid": 1942280,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Brotato",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Brotato.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1942280/f98281910016f8924be37cce3d4b119f5223a358/header.jpg?t=1789029155",
+    "total_achievements": 179,
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "release_date": "23 Jun, 2023",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Brotato/cover/cover.jpg"
+  },
+  "1229490": {
+    "name": "ULTRAKILL",
+    "appid": 1229490,
+    "status": "active",
+    "raw_path": "F:\\1.games\\ULTRAKILL\\ULTRAKILL_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "ULTRAKILL.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1229490/header.jpg?t=1792046802",
+    "total_achievements": 0,
+    "genres": [
+      "Action",
+      "Indie",
+      "Early Access"
+    ],
+    "release_date": "3 Sep, 2020"
+  },
+  "48000": {
+    "name": "LIMBO",
+    "appid": 48000,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Limbo",
+    "steam_api": "86",
+    "is_unity": false,
+    "html_file": "LIMBO.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/48000/header.jpg?t=1761819450",
+    "total_achievements": 13,
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "release_date": "2 Aug, 2011",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Limbo/cover/cover.jpg"
+  },
+  "1374970": {
+    "name": "Moonscars",
+    "appid": 1374970,
+    "status": "prepared",
+    "raw_path": "F:\\1.games\\Moonscars\\Moonscars_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "Moonscars.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1374970/header.jpg?t=1787759258",
+    "total_achievements": 34,
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "release_date": "27 Sep, 2022"
+  },
+  "1367550": {
+    "name": "Kingdom Rush Vengeance - Tower Defense",
+    "folder_name": "Kingdom Rush Vengeance",
+    "appid": 1367550,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Kingdom Rush Vengeance",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Kingdom_Rush_Vengeance___Tower_Defense.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1367550/header.jpg?t=1790344622",
+    "total_achievements": 90,
+    "genres": [
+      "Strategy"
+    ],
+    "release_date": "15 Oct, 2020",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Kingdom Rush Vengeance/cover/cover.jpg"
+  },
+  "977880": {
+    "name": "Eastward",
+    "appid": 977880,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Eastward",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Eastward.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/977880/header.jpg?t=1782290198",
+    "total_achievements": 30,
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "RPG"
+    ],
+    "release_date": "16 Sep, 2021",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/eastward/cover/cover.jpg"
+  },
+  "282070": {
+    "name": "This War of Mine",
+    "appid": 282070,
+    "status": "done",
+    "raw_path": "F:\\1.games\\This War of Mine\\x64",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "This_War_of_Mine.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/282070/26fb8c9bb7b9e3a17469d8026ee3fa510ee7f8f5/header.jpg?t=1792057984",
+    "total_achievements": 59,
+    "genres": [
+      "Adventure",
+      "Indie",
+      "Simulation"
+    ],
+    "release_date": "14 Nov, 2014",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/This War of Mine/cover/cover.jpg"
+  },
+  "588650": {
+    "name": "Dead Cells",
+    "appid": 588650,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Dead Cells",
+    "steam_api": "86",
+    "is_unity": false,
+    "html_file": "Dead_Cells.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/588650/header.jpg?t=1779086887",
+    "total_achievements": 121,
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "release_date": "6 Aug, 2018",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Dead Cells/cover/cover.jpg"
+  },
+  "3950130": {
+    "name": "Database Detective: Minor Crimes Division",
+    "folder_name": "Database Detective",
+    "appid": 3950130,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Database Detective\\copOS_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "Database_Detective__Minor_Crimes_Division.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3950130/ed5315c85ccaeaa8deb05aa6a91fc08e245d1e05/header.jpg?t=1791289727",
+    "total_achievements": 34,
+    "genres": [
+      "Indie"
+    ],
+    "release_date": "17 Jul, 2026",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Database_Detective__Minor_Crimes_Division/cover/cover.jpg"
+  },
+  "1794680": {
+    "name": "Vampire Survivors",
+    "appid": 1794680,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Vampire Survivors\\VampireSurvivors_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "Vampire_Survivors.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/2ca07b690dde645771125ed9d9206c4c5fde4dd4/header.jpg?t=1787911678",
+    "total_achievements": 243,
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "release_date": "20 Oct, 2022",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/Vampire Survivors/cover/cover.jpg"
+  },
+  "268910": {
+    "name": "Cuphead",
+    "appid": 268910,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Cuphead\\Cuphead_Data\\Plugins",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "Cuphead.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/268910/header.jpg?t=1709068852",
+    "total_achievements": 42,
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "release_date": "29 Sep, 2017",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/cuphead/cover/cover.jpg"
+  },
+  "413150": {
+    "name": "Stardew Valley",
+    "appid": 413150,
+    "status": "done",
+    "raw_path": "F:\\1.games\\Stardew Valley",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Stardew_Valley.html",
+    "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168",
+    "total_achievements": 49,
+    "genres": [
+      "Indie",
+      "RPG",
+      "Simulation"
+    ],
+    "release_date": "26 Feb, 2016",
+    "cover_local": "gbe_settings_generator/_OUTPUT_DONE/stardew valley/cover/cover.jpg"
+  },
+  "pending_Among_Us_SteamRIP_com": {
+    "name": "Among-Us-SteamRIP.com",
+    "appid": null,
+    "status": "scanned",
+    "raw_path": "F:\\1.games\\Among-Us-SteamRIP.com\\Among Us\\Among Us_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": false,
+    "html_file": "Among_Us_SteamRIP_com.html"
+  },
+  "pending_AstreaSixSidedOraclekeGET": {
+    "name": "AstreaSixSidedOraclekeGET",
+    "appid": null,
+    "status": "scanned",
+    "raw_path": "F:\\1.games\\AstreaSixSidedOraclekeGET\\Astrea_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "AstreaSixSidedOraclekeGET.html"
+  },
+  "pending_NovaLandsNzKp8": {
+    "name": "NovaLandsNzKp8",
+    "appid": null,
+    "status": "scanned",
+    "raw_path": "F:\\1.games\\NovaLandsNzKp8\\Nova Lands_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "NovaLandsNzKp8.html"
+  },
+  "pending_WorldBox": {
+    "name": "WorldBox",
+    "appid": null,
+    "status": "scanned",
+    "raw_path": "F:\\1.games\\WorldBox\\worldbox_Data\\Plugins\\x86_64",
+    "steam_api": "64",
+    "is_unity": true,
+    "html_file": "WorldBox.html"
+  }
+}

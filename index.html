@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hall of Fame â€” Game Index</title>
+<title>Hall of Fame — Game Index</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
   --night:      #0A0E1A;
@@ -17,8 +17,9 @@
   --gold-dim:   #6B5520;
   --text:       #C8D8E8;
   --dim:        #8BAAB8;
-  --muted:      #3A4A5A;
-  --locked:     #1A2030;
+  --muted:      #2A3644;
+  --locked:     #161E2E;
+  --accent-red: #FF5A5A;
   --font-pixel: 'Press Start 2P', monospace;
   --font-sans:  'Inter', sans-serif;
   --font-mono:  'JetBrains Mono', monospace;
@@ -29,7 +30,7 @@ body {
   background: var(--night);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 16px; /* تم التكبير من 14px */
+  font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
@@ -41,22 +42,22 @@ body::before {
   background-image:
     linear-gradient(rgba(94,207,177,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(94,207,177,0.03) 1px, transparent 1px);
-  background-size: 16px 16px;
+  background-size: 20px 20px;
   pointer-events: none;
   z-index: 0;
 }
 .wrap {
   position: relative;
   z-index: 1;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px 80px;
 }
 header {
-  padding: 48px 0 36px;
+  padding: 44px 0 32px;
   text-align: center;
   border-bottom: 2px solid var(--muted);
-  margin-bottom: 36px;
+  margin-bottom: 30px;
   position: relative;
 }
 header::after {
@@ -68,44 +69,78 @@ header::after {
 }
 .header-tag {
   font-family: var(--font-mono);
-  font-size: 12px; /* تم التكبير من 10px */
+  font-size: 12px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--teal);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   display: block;
 }
 .header-title {
   font-family: var(--font-pixel);
-  font-size: clamp(18px, 4.5vw, 28px); /* تم التكبير */
+  font-size: clamp(20px, 4vw, 30px);
   color: var(--gold);
   letter-spacing: 0.05em;
   line-height: 1.4;
-  margin-bottom: 10px;
-  text-shadow: 0 0 20px rgba(255,209,102,0.4), 3px 3px 0 rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(255,209,102,0.35);
 }
 .header-sub {
   font-family: var(--font-sans);
-  font-size: 15px; /* تم التكبير من 13px */
+  font-size: 15px;
   color: var(--dim);
 }
-.game-grid, #main {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+
+/* Search Bar */
+.search-bar-wrap {
+  margin-bottom: 26px;
+  position: relative;
 }
+.search-input {
+  width: 100%;
+  background: var(--card);
+  border: 2px solid var(--muted);
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+}
+.search-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 16px rgba(94,207,177,0.25);
+}
+.search-input::placeholder {
+  color: var(--dim);
+}
+
+/* Grid Layout */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  gap: 18px;
+}
+@media (max-width: 640px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Horizontal Card Structure (Sketch Layout) */
 .game-card {
   background: var(--card);
   border: 2px solid var(--muted);
-  padding: 20px;
+  padding: 14px 16px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: stretch;
   gap: 16px;
   text-decoration: none;
   color: inherit;
   position: relative;
-  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s;
   clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
 }
 .game-card::before {
@@ -116,56 +151,130 @@ header::after {
   background: var(--teal);
 }
 .game-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--teal);
-  box-shadow: 0 0 20px rgba(94,207,177,0.15);
+  box-shadow: 0 8px 24px rgba(94,207,177,0.18);
 }
-.game-info {
+
+/* Left: Game Image Box */
+.card-thumb-wrap {
+  width: 140px;
+  min-width: 140px;
+  height: 100px;
+  background: var(--locked);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  align-self: center;
 }
-.game-icon-box {
-  width: 44px; height: 44px;
-  background: var(--locked);
-  border: 2px solid var(--muted);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
-  position: relative;
+.card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
-.game-icon-box::after {
-  content: '+';
+.game-card:hover .card-thumb {
+  transform: scale(1.06);
+}
+.card-fallback {
   font-family: var(--font-pixel);
-  font-size: 18px; /* تم التكبير من 16px */
+  font-size: 20px;
   color: var(--gold);
+}
+
+/* Right: Content Area */
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+.card-header-area {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 .game-title {
   font-family: var(--font-pixel);
-  font-size: 12px; /* تم التكبير من 10px */
+  font-size: 12px;
   color: var(--text);
   line-height: 1.5;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
 }
 .game-card:hover .game-title {
   color: var(--gold);
 }
-.game-foot {
+
+/* Game Genres (Red accent like sketch) */
+.game-genres {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px dashed var(--muted);
-  padding-top: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.genre-tag {
   font-family: var(--font-mono);
-  font-size: 10px; /* تم التكبير من 8px */
-  color: var(--dim);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent-red);
+  background: rgba(255, 90, 90, 0.12);
+  border: 1px solid rgba(255, 90, 90, 0.3);
+  padding: 1px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
 }
-.badge-launch {
-  color: var(--teal);
-  border: 1px solid var(--teal-dim);
-  padding: 3px 8px;
-  background: rgba(94,207,177,0.08);
+
+/* Bottom Progress Area */
+.card-progress-area {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
 }
+.ach-stats-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.ach-ratio {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.trophy-icon {
+  font-size: 14px;
+  filter: drop-shadow(0 0 4px rgba(255, 209, 102, 0.5));
+}
+
+/* Progress Bar */
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
 .empty {
   text-align: center;
   padding: 80px 20px;
@@ -177,7 +286,7 @@ footer {
   padding-top: 20px;
   border-top: 2px solid var(--muted);
   font-family: var(--font-pixel);
-  font-size: 8px; /* تم التكبير من 6px */
+  font-size: 8px;
   color: var(--muted);
   letter-spacing: 0.2em;
 }
@@ -191,81 +300,222 @@ footer {
     <p class="header-sub">Select a game to view its full achievements log</p>
   </header>
 
-  <main class="game-grid">    <a class="game-card" href="Hall of Fame/eastward.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">eastward</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/this_war_of_mine.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">this war of mine</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/dead_cells.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">dead cells</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/database_detective.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">database detective</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/Vampire_Survivors.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">Vampire Survivors</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/cuphead.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">cuphead</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/stardew_valley.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">stardew valley</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a>    <a class="game-card" href="Hall of Fame/Brotato.html">
-      <div class="game-info">
-        <div class="game-icon-box"></div>
-        <div class="game-title">Brotato</div>
-      </div>
-      <div class="game-foot">
-        <span>VIEW LOG</span>
-        <span class="badge-launch">OPEN</span>
-      </div>
-    </a></main>
+  <div class="search-bar-wrap">
+    <input type="text" id="game-search" class="search-input" placeholder="🔍 SEARCH GAMES BY TITLE OR GENRE..." oninput="filterGames()" autocomplete="off"/>
+  </div>
 
-  <footer>ACHIEVEMENT CHRONICLE â€” INDEX EDITION</footer>
+  <main class="game-grid">
+
+    <a class="game-card" href="Hall of Fame/Brotato.html" data-title="brotato" data-tags="action casual indie rpg">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Brotato/cover/cover.jpg" alt="Brotato" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Brotato</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Casual</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">30 / 179 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 17%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Cuphead.html" data-title="cuphead" data-tags="action indie">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/cuphead/cover/cover.jpg" alt="Cuphead" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Cuphead</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 42 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 2%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Database_Detective__Minor_Crimes_Division.html" data-title="database detective: minor crimes division" data-tags="indie">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Database_Detective__Minor_Crimes_Division/cover/cover.jpg" alt="Database Detective: Minor Crimes Division" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Database Detective: Minor Crimes Division</div>
+          <div class="game-genres"><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 34 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 3%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Dead_Cells.html" data-title="dead cells" data-tags="action adventure indie">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Dead Cells/cover/cover.jpg" alt="Dead Cells" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Dead Cells</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Adventure</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">10 / 121 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 8%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Eastward.html" data-title="eastward" data-tags="action adventure indie rpg">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/eastward/cover/cover.jpg" alt="Eastward" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Eastward</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Adventure</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 30 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 3%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Kingdom_Rush_Vengeance___Tower_Defense.html" data-title="kingdom rush vengeance - tower defense" data-tags="strategy">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Kingdom Rush Vengeance/cover/cover.jpg" alt="Kingdom Rush Vengeance - Tower Defense" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Kingdom Rush Vengeance - Tower Defense</div>
+          <div class="game-genres"><span class="genre-tag">Strategy</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 90 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 1%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/LIMBO.html" data-title="limbo" data-tags="action adventure indie">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Limbo/cover/cover.jpg" alt="LIMBO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">LIMBO</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Adventure</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">2 / 13 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 15%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Stardew_Valley.html" data-title="stardew valley" data-tags="indie rpg simulation">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/stardew valley/cover/cover.jpg" alt="Stardew Valley" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Stardew Valley</div>
+          <div class="game-genres"><span class="genre-tag">Indie</span><span class="genre-tag">RPG</span><span class="genre-tag">Simulation</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 49 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 2%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/This_War_of_Mine.html" data-title="this war of mine" data-tags="adventure indie simulation">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/This War of Mine/cover/cover.jpg" alt="This War of Mine" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">This War of Mine</div>
+          <div class="game-genres"><span class="genre-tag">Adventure</span><span class="genre-tag">Indie</span><span class="genre-tag">Simulation</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 59 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 2%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a class="game-card" href="Hall of Fame/Vampire_Survivors.html" data-title="vampire survivors" data-tags="action casual indie rpg">
+      <div class="card-thumb-wrap">
+        <img class="card-thumb" src="gbe_settings_generator/_OUTPUT_DONE/Vampire Survivors/cover/cover.jpg" alt="Vampire Survivors" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="card-fallback" style="display:none;">+</div>
+      </div>
+      <div class="card-content">
+        <div class="card-header-area">
+          <div class="game-title">Vampire Survivors</div>
+          <div class="game-genres"><span class="genre-tag">Action</span><span class="genre-tag">Casual</span><span class="genre-tag">Indie</span></div>
+        </div>
+        <div class="card-progress-area">
+          <div class="ach-stats-row">
+            <span class="ach-ratio">1 / 243 <span class="trophy-icon">🏆</span></span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </a>
+  
+  </main>
+
+  <footer>ACHIEVEMENT CHRONICLE — INDEX EDITION</footer>
 </div>
+
+<script>
+function filterGames() {
+  const query = (document.getElementById('game-search')?.value || '').toLowerCase().trim();
+  const cards = document.querySelectorAll('.game-card');
+  cards.forEach(card => {
+    const title = card.getAttribute('data-title') || '';
+    const tags = card.getAttribute('data-tags') || '';
+    if (!query || title.includes(query) || tags.includes(query)) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
 </body>
 </html>
